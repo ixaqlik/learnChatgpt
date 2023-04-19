@@ -22,6 +22,7 @@ services:
           run:  cd ../frontend;npm install;npm run build
           interactive: true
           continueOnError: false
+          
 hooks:
     postprovision:
       windows:
@@ -34,7 +35,6 @@ hooks:
         run: ./scripts/prepdocs.sh
         interactive: true
         continueOnError: false
-learnChatgpt/azure.yaml at main · ixaqlik/learnChatgpt
 
 on:
   push:

@@ -1,4 +1,8 @@
-name: azure-search-openai-demo
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
+
+name: Build and deploy Python app to Azure Web App - learnChatapp
 on:
   push:
     branches:
@@ -6,36 +10,6 @@ on:
   workflow_dispatch:
 
 jobs:
-services:
-  backend:
-    project: ./app/backend
-    language: py
-    host: appservice
-    hooks:
-      prepackage:
-        windows:
-          shell: pwsh
-          run:  cd ../frontend;npm install;npm run build
-          interactive: true
-          continueOnError: false
-        posix:
-          shell: sh
-          run:  cd ../frontend;npm install;npm run build
-          interactive: true
-          continueOnError: false
-hooks:
-    postprovision:
-      windows:
-        shell: pwsh
-        run: ./scripts/prepdocs.ps1
-        interactive: true
-        continueOnError: false
-      posix:
-        shell: sh
-        run: ./scripts/prepdocs.sh
-        interactive: true
-        continueOnError: false
-
   build:
     runs-on: ubuntu-latest
 
@@ -54,6 +28,9 @@ hooks:
       
       - name: Install dependencies
         run: pip install -r notebooks/requirements.txt
+	
+	- name: run azd up
+	  run: azd up
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
@@ -85,5 +62,3 @@ hooks:
           app-name: 'learnChatapp'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2437377214474497B958116F305D983B }}
-
-
